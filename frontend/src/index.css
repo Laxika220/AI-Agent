@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root { height: 100%; }
+  ::selection { @apply bg-brand-500/40; }
+}
+
+@layer components {
+  .card { @apply rounded-xl border border-surface-border bg-surface-raised; }
+  .input {
+    @apply w-full rounded-lg border border-surface-border bg-surface px-3 py-2 text-sm text-slate-100
+      placeholder:text-slate-500 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500;
+  }
+  .label { @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-400; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium
+      transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-500; }
+  .btn-secondary { @apply btn border border-surface-border bg-surface-overlay text-slate-200 hover:bg-surface-border; }
+  .btn-ghost { @apply btn text-slate-400 hover:bg-surface-overlay hover:text-slate-100; }
+  .btn-danger { @apply btn text-red-400 hover:bg-red-500/10; }
+  .badge { @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium; }
+}
+
+.scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #262b36; border-radius: 9999px; }
+
+@keyframes blink { 50% { opacity: 0; } }
+.cursor-blink::after { content: '▍'; margin-left: 1px; animation: blink 1s step-end infinite; color: #8b9cff; }
