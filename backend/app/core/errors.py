@@ -55,7 +55,7 @@ class BadRequestError(AppError):
 
 
 class PayloadTooLargeError(AppError):
-    status_code = status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
+    status_code = 413
     code = "payload_too_large"
 
 
@@ -100,7 +100,7 @@ def register_exception_handlers(app: FastAPI) -> None:
             for err in exc.errors()
         ]
         return JSONResponse(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=422,
             content=_error_body("validation_error", "Request validation failed", details),
         )
 
