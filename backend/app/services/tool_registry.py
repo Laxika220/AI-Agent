@@ -11,6 +11,7 @@ import ipaddress
 import json
 import math
 import re
+import signal
 import subprocess
 import sys
 import tempfile
@@ -153,7 +154,8 @@ def run_python_sandboxed(code: str, timeout_seconds: int) -> dict[str, Any]:
     or a dedicated container for running untrusted code in production.
     """
     bootstrap = _SANDBOX_BOOTSTRAP.format(
-        cpu=timeout_seconds, mem=512 * 1024 * 1024, fsize=10 * 1024 * 1024
+        # CPU limit sits above the wall-clock timeout so the timeout normally fires first.
+        cpu=timeout_seconds + 1, mem=512 * 1024 * 1024, fsize=10 * 1024 * 1024
     )
     with tempfile.TemporaryDirectory(prefix="agentforge-exec-") as workdir:
         Path(workdir, "main.py").write_text(code, encoding="utf-8")
@@ -175,7 +177,8 @@ def run_python_sandboxed(code: str, timeout_seconds: int) -> dict[str, Any]:
         "stdout": _truncate(proc.stdout),
         "stderr": _truncate(proc.stderr, 4_000),
         "exit_code": proc.returncode,
-        "timed_out": False,
+        # Killed by RLIMIT_CPU (SIGXCPU) or the kernel (SIGKILL) => treat as a timeout.
+        "timed_out": proc.returncode in (-signal.SIGXCPU, -signal.SIGKILL),
     }
 
 
