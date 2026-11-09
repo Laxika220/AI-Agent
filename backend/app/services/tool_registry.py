@@ -247,7 +247,11 @@ async def json_api_call(
         return tool_result(
             "json_api_call",
             args,
-            {"status_code": response.status_code, "content_type": response.headers.get("content-type"), "body": payload},
+            {
+                "status_code": response.status_code,
+                "content_type": response.headers.get("content-type"),
+                "body": payload,
+            },
         )
     except Exception as exc:
         return tool_result("json_api_call", args, error=str(exc))

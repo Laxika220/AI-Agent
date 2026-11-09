@@ -1,0 +1,7 @@
+line-length = 120
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC"]
+# ASYNC240: unlink/mkdir of local upload files are sub-millisecond; not worth a thread hop.
+ignore = ["B008", "ASYNC240"]
