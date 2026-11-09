@@ -101,7 +101,9 @@ docker compose up --build
 | API + Swagger docs | http://localhost:8000/docs |
 | ChromaDB | http://localhost:8001 |
 
-> The first build downloads CPU-only PyTorch and bakes in the embedding model, so it takes a few minutes. After that it starts in seconds.
+> The first build downloads CPU-only PyTorch and bakes in the embedding model, so it takes a few minutes and needs roughly 5 GB of free disk space. After that it starts in seconds.
+>
+> Port already in use (for example a local MongoDB)? Override the host ports: `MONGO_HOST_PORT=27018 REDIS_HOST_PORT=6380 CHROMA_HOST_PORT=8002 docker compose up --build`.
 
 ### Using a different LLM provider
 
